@@ -1,0 +1,8 @@
+kaleido==0.2.1
+matplotlib==3.4.2
+numpy==1.21.6
+pandas==1.4.2
+plotly==5.8.0
+torch==1.11.0
+tqdm==4.64.0
+umap-learn==0.5.3

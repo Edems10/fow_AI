@@ -1,0 +1,23 @@
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+
+from win_predictor.win_feature_extractor import WinFeatureExtractor
+from win_predictor.win_predictor import WinPredictor
+
+
+class RandomForestWinPredictor(WinPredictor):
+    model: RandomForestClassifier
+    feature_extractor: WinFeatureExtractor
+
+    def __init__(self, feature_extractor: WinFeatureExtractor):
+        self.model = RandomForestClassifier()
+        self.feature_extractor = feature_extractor
+
+    def train(self, x: pd.DataFrame, y: np.ndarray) -> None:
+        features = self.feature_extractor.get_features(x)
+        self.model.fit(features, y)
+
+    def predict(self, x: pd.DataFrame) -> [int]:
+        features = self.feature_extractor.get_features(x)
+        return self.model.predict(features)
