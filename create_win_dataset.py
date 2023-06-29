@@ -9,8 +9,8 @@ from lol_rules import CHAMPION_ROLES, WARD_TYPES, DRAGON_TYPES, LANES, TURRET_TY
 
 def main() -> None:
     data_folder = 'C:\\Users\\edems\\Work\\Edit_fantasy_AI_muller\\Game_data'
-    aggregated_folder = os.path.join(data_folder, 'aggregated')
-    output_folder = 'data'
+    aggregated_folder = os.path.join(data_folder, 'aggregated_fow_data')
+    output_folder = 'data_fow'
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 

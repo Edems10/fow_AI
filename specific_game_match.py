@@ -44,7 +44,7 @@ for json_file in json_files:
             if found:
                 break
             
-TEAM_NAMES = ['FLY','C9','EG','GG','CLG','TSM','TL','100','IMT','DIG']
+TEAM_NAMES = ['FLY','TL']
 
 # Create a new list to store dictionaries with valid 't1' and 't2' values
 valid_dicts = []
@@ -52,7 +52,7 @@ valid_dicts = []
 # Iterate over each dictionary in the final_dict list
 for dictionary in final_dict:
     # Check if 't1' or 't2' values are in the TEAM_NAMES list
-    if dictionary['t1'] in TEAM_NAMES or dictionary['t2'] in TEAM_NAMES:
+    if dictionary['t1'] in TEAM_NAMES and dictionary['t2'] in TEAM_NAMES:
         # If so, add the dictionary to the valid_dicts list
         valid_dicts.append(dictionary)
 
