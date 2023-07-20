@@ -154,8 +154,16 @@ def get_champion_state_features(champion_state: List[List],
                                 ultimate_name_index: int) -> List[List]:
     blocked_idx = (position_index, champion_name_index, ultimate_name_index)
     # Removes blocked indices from the champion state, adds team feature
-    filtered_champion_state = [[item for i, item in enumerate(sublist) if i not in blocked_idx] + [champ_idx >= 5]
-                               for champ_idx, sublist in enumerate(champion_state)]
+    filtered_champion_state = []
+
+    for champ_idx, sublist in enumerate(champion_state):
+        new_sublist = []
+        for i, item in enumerate(sublist):
+            if i not in blocked_idx:
+                new_sublist.append(item)
+        new_sublist.append(champ_idx >= 5)
+        filtered_champion_state.append(new_sublist)
+
     champion_positions = [[sublist[position_index][coord] for coord in ('x', 'z')] for sublist in champion_state]
     return [state + position + buff
             for state, position, buff in zip(filtered_champion_state, champion_positions, buff_state)]
@@ -216,6 +224,7 @@ def create_samples(game: dict,
                           timestep_state['monster_respawns'] +
                           flatten_tensor(timestep_state['team_buffs']),  # building_respawns, monster_respawns, team_buff_state
                  'stats': flatten_tensor(timestep_state['team_stats']),  # team_statistics
+                 # added fog_of_war as last in champion_state
                  'champion_state': get_champion_state_features(timestep_state['champion_state'],
                                                                timestep_state['buffs'],
                                                                pos_idx, champion_name_idx,
@@ -234,7 +243,7 @@ def create_samples(game: dict,
                  'summoner_spell_types': [[summoner_spell_to_id[summoner_spell[summoner_spell_name_idx].lower()]
                                            for summoner_spell in summoner_spells]
                                           for summoner_spells in timestep_state['summoner_spells']],
-                 'skill_types': skill_types,
+                 'skill_types': skill_types
                  }
         for key, value in timestep_data['targets'].items():
             state[f'target_{key}'] = value
@@ -251,8 +260,8 @@ def main() -> None:
     #data_folder = sys.argv[1]
     
     data_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI\\Game_Data'
-    aggregated_folder = os.path.join(data_folder, 'aggregated')
-    output_folder = os.path.join(data_folder, 'macro_datasetz')
+    aggregated_folder = os.path.join(data_folder, 'aggregated_fow_data')
+    output_folder = os.path.join(data_folder, 'macro_fow')
 
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)

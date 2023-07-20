@@ -4,12 +4,11 @@ from sklearn.model_selection import train_test_split
 
 
 def main() -> None:
-    #data_folder = sys.argv[1]
     data_folder = os.path.join(os.path.dirname(__file__),'Game_data')
-    output_folder = os.path.join(os.path.dirname(__file__),'Game_data', 'macro_prediction_split')
+    output_folder = os.path.join(os.path.dirname(__file__),'Game_data', 'macro_prediction_split_fow')
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
-    dataset_folder = os.path.join(data_folder, 'macro_dataset')
+    dataset_folder = os.path.join(data_folder, 'macro_fow')
     games = os.listdir(dataset_folder)
     train_files, test_files = train_test_split(games, test_size=0.2, train_size=0.8)
     valid_files, test_files = train_test_split(test_files, test_size=0.5, train_size=0.5)
