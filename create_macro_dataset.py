@@ -249,9 +249,10 @@ def main() -> None:
     POSITON_PREDICTION_SPLIT_N = 12
 
     #data_folder = sys.argv[1]
-    data_folder = 'C:\\Users\\edems\\Work\\Edit_fantasy_AI_muller\\Game_Data'
+    
+    data_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI\\Game_Data'
     aggregated_folder = os.path.join(data_folder, 'aggregated')
-    output_folder = os.path.join(data_folder, 'macro_dataset')
+    output_folder = os.path.join(data_folder, 'macro_datasetz')
 
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)

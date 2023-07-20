@@ -44,7 +44,7 @@ for json_file in json_files:
             if found:
                 break
             
-TEAM_NAMES = ['FLY','TL']
+TEAM_NAMES = ['IMT','C9']
 
 # Create a new list to store dictionaries with valid 't1' and 't2' values
 valid_dicts = []
@@ -61,7 +61,7 @@ for dictionary in final_dict:
 # Open a new text file in write mode
 with open('games_found_had.txt', 'w') as f:
     # Iterate over each dictionary in the valid_dicts list
-    for dictionary in valid_dicts:
+    for dict in final_dict:
         # Write the 'game' data to the text file, followed by a newline
-        f.write(dictionary['game'] + '\n')
+        f.write(f'{dict["t1"]} vs {dict["t2"]} - {dict["game"]} \n')
 

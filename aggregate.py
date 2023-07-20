@@ -64,11 +64,11 @@ def main() -> None:
 
     # Joins the current directory with the relative directory 'Game_data'
     #data_folder = 'C:\\Users\\edems\\Work\\mulleste_master_code\\DATA_FOLDER_REMADE_TEST'
-    data_folder = 'C:\\Users\\edems\\Work\\Edit_fantasy_AI_muller\\Game_Data'
+    data_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI\\Game_Data'
     version = '13.4'
     #version = '11.15'
     
-    interval = 10000
+    interval = 1000
     # interpolate = False
 
     data_dragon = DataDragon(data_folder, version)
