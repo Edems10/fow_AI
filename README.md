@@ -32,6 +32,7 @@ previous step.
 
 ## Train models
 ### Win prediction
+
 1. Run `predict_win.py DATA_FOLDER` which tests different models and saves their results in
 `output/win_prediction/model_accuracies.csv`.
 ### Macro prediction

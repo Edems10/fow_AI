@@ -492,7 +492,7 @@ def visualize_predictions(model: torch.nn.Module,
 
 
 def get_filenames(dataset_folder: str, dataset_name: str) -> List[str]:
-    with open(os.path.join(os.path.dirname(__file__), 'Game_data\\macro_prediction_split', f'{dataset_name}.txt'), 'r') as f:
+    with open(os.path.join(os.path.dirname(__file__), 'Game_data\\macro_prediction_split_fow', f'{dataset_name}.txt'), 'r') as f:
         return [os.path.join(dataset_folder, filename.strip()) for filename in f]
 
 
@@ -501,7 +501,7 @@ def main() -> None:
     data_folder = os.path.join(os.path.dirname(__file__),'Game_data')
     POSITON_PREDICTION_SPLIT_N = 12
     history_size = 1
-    dataset_folder = os.path.join(data_folder, f'macro_dataset')
+    dataset_folder = os.path.join(data_folder, f'macro_fow')
     models_folder = 'models'
     if not os.path.exists(models_folder):
         os.mkdir(models_folder)
@@ -518,6 +518,10 @@ def main() -> None:
     champion_data = data_dragon.get_champion_data()
     summoner_data = data_dragon.get_summoner_data()
 
+
+
+    
+    
     print("Loading train dataset to memory")
     train_dataset = MacroDataset(get_filenames(dataset_folder, 'train'), history_size)
     print("Loading valid dataset to memory")

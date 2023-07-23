@@ -17,9 +17,37 @@ class MacroDataset(Dataset):
         for i, filename in enumerate(tqdm(filenames)):
             with open(filename, 'r') as f:
                 samples = [json.loads(line) for line in f]
-            stacked_samples = {key: torch.LongTensor([sample[key] for sample in samples]) if 'types' in key or key == 'target_position' else
-                               torch.FloatTensor([sample[key] for sample in samples])
-                               for key in samples[0].keys()}
+            # Initialize an empty dictionary to store our stacked samples
+            stacked_samples = {}
+
+            # Fetch the keys from the first sample as our reference for all samples
+            sample_keys = samples[0].keys()
+
+            # Iterate over each key
+            for key in sample_keys:
+                # Prepare a list to collect all values corresponding to the current key
+                # across all samples
+                sample_values = []
+
+                # Go through all samples
+                for sample in samples:
+                    # Append the value for the current key from the current sample
+                    sample_value = sample[key]
+                    
+                    
+                    sample_values.append(sample_value)
+
+                # Check if the key contains the substring 'types' or if it's 'target_position'
+                if 'types' in key or key == 'target_position':
+                    # If yes, convert the list of values into a tensor of long integers
+                    tensor_values = torch.LongTensor(sample_values)
+                else:
+                    # If not, convert the list of values into a tensor of floating point numbers
+                    tensor_values = torch.FloatTensor(sample_values)
+
+                # Add the created tensor to our result dictionary
+                stacked_samples[key] = tensor_values
+
             self.games.append(stacked_samples)
             self.game_lengths.append(len(samples) - (history_size - 1))
 

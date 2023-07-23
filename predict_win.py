@@ -230,18 +230,19 @@ def measure_numsamples_influence(df: pd.DataFrame,
 
 
 def main() -> None:
-    data_folder = 'C:\\Users\\edems\\Documents\\Work\\Edit_fantasy_AI_muller\\Game_data'
+    data_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI'
+    data_dragon_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI\\Game_data'
     #data_folder = sys.argv[1]
-    dataset_folder = 'data'
-    output_folder = os.path.join('C:\\Users\\edems\\Documents\\Work\\Edit_fantasy_AI_muller\\output', 'win_prediction')
+    dataset_folder = 'data_fow'
+    output_folder = os.path.join('C:\\Users\\edems\\Documents\\Work\\fow_AI\\output', 'win_prediction')
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
     # version = '11.15'
     version = '13.4'
-    data_dragon = DataDragon(data_folder, version)
+    data_dragon = DataDragon(data_dragon_folder, version)
 
-    df = pd.read_csv(os.path.join(dataset_folder, 'win_dataset.csv'))
+    df = pd.read_csv(os.path.join(data_folder,dataset_folder, 'win_dataset.csv'))
     kf = KFold(n_splits=5)
     game_ids = np.unique(df['id'])
     num_runs = 1
