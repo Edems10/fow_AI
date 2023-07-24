@@ -519,9 +519,6 @@ def main() -> None:
     summoner_data = data_dragon.get_summoner_data()
 
 
-
-    
-    
     print("Loading train dataset to memory")
     train_dataset = MacroDataset(get_filenames(dataset_folder, 'train'), history_size)
     print("Loading valid dataset to memory")
@@ -632,7 +629,7 @@ def main() -> None:
                                    history_size,
                                    model_name)
     print("Visualizing embeddings before training:")
-    visualize_embeddings(macro_predictor, seen_types, output_folder, 'Untrained best', data_dragon)
+    #visualize_embeddings(macro_predictor, seen_types, output_folder, 'Untrained best', data_dragon)
 
     model_path = os.path.join(models_folder, 'macro_predictor.pt')
     train(macro_predictor, train_dataset, valid_dataset, test_dataset, batch_size, device, targets, output_folder, model_name)

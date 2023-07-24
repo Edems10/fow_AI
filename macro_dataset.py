@@ -17,6 +17,10 @@ class MacroDataset(Dataset):
         for i, filename in enumerate(tqdm(filenames)):
             with open(filename, 'r') as f:
                 samples = [json.loads(line) for line in f]
+                
+                
+            # Delete the record at index 6
+            del samples[6]
             # Initialize an empty dictionary to store our stacked samples
             stacked_samples = {}
 
@@ -33,9 +37,10 @@ class MacroDataset(Dataset):
                 for sample in samples:
                     # Append the value for the current key from the current sample
                     sample_value = sample[key]
-                    
-                    
                     sample_values.append(sample_value)
+
+                # # Check the length of sample_values
+                # print(f"Key: {key}, Length of sample_values: {len(sample_values)}")
 
                 # Check if the key contains the substring 'types' or if it's 'target_position'
                 if 'types' in key or key == 'target_position':
