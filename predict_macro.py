@@ -404,7 +404,20 @@ def visualize_predictions(model: torch.nn.Module,
                     champ_color = team_colors[team]
                     # Convert to int icon starts
                     start_x, start_y = round(pos_x - champ_icon.shape[0] // 2), round(pos_y - champ_icon.shape[1] // 2)
-                    canvas[start_y: start_y + champ_icon.shape[1], start_x: start_x + champ_icon.shape[0]] = champ_icon
+
+                    # Ensure start_x and start_y are not negative
+                    start_x = max(0, start_x)
+                    start_y = max(0, start_y)
+
+                    # Adjust end_x and end_y to not exceed canvas dimensions
+                    end_x = min(canvas.shape[1], start_x + champ_icon.shape[0])
+                    end_y = min(canvas.shape[0], start_y + champ_icon.shape[1])
+
+                    # Also adjust champ_icon if necessary
+                    if end_x - start_x < champ_icon.shape[0] or end_y - start_y < champ_icon.shape[1]:
+                        champ_icon = champ_icon[:end_y-start_y, :end_x-start_x]
+
+                    canvas[start_y:end_y, start_x:end_x] = champ_icon
                     cv2.circle(canvas, (pos_x, pos_y), champion_icon_image_size[0] // 2, champ_color, 2)
                 # Plot actual movements
                 for champ_idx in range(10):
@@ -538,13 +551,15 @@ def main() -> None:
     valid_dataset.normalize(feature_mean, feature_std)
     test_dataset.normalize(feature_mean, feature_std)
 
+    print(1)
+    
     target_mean, target_std = train_dataset.get_target_mean_std()
 
     champion_skill_names = [spell['id'].lower()
                             for champion, data in champion_data['data'].items() for spell in data['spells']]
 
     eg, _ = train_dataset[0]
-
+    print(11)
     features = [
         'state',
         # 'stats', causes overfitting
@@ -608,6 +623,7 @@ def main() -> None:
                     'encoder': 128,
                     'prediction_layers': 1}
 
+    print(111)
     batch_size = 64
     model_name = 'Best'
     # Visualize only embeddings seen in the train dataset
@@ -630,15 +646,16 @@ def main() -> None:
                                    model_name)
     print("Visualizing embeddings before training:")
     #visualize_embeddings(macro_predictor, seen_types, output_folder, 'Untrained best', data_dragon)
-
+    print(2)
     model_path = os.path.join(models_folder, 'macro_predictor.pt')
     train(macro_predictor, train_dataset, valid_dataset, test_dataset, batch_size, device, targets, output_folder, model_name)
     torch.save(macro_predictor.state_dict(), model_path)
-
+    print(1111)
     macro_predictor.load_state_dict(torch.load(model_path))
     macro_predictor.eval()
+    print(22)
     print("Visualizing embeddings after training:")
-    visualize_embeddings(macro_predictor, seen_types, output_folder, 'Trained best', data_dragon)
+    #visualize_embeddings(macro_predictor, seen_types, output_folder, 'Trained best', data_dragon)
     print("Visualizing prediction:")
     visualize_predictions(macro_predictor,
                           test_dataset,
@@ -650,6 +667,7 @@ def main() -> None:
                           feature_std,
                           data_dragon)
     print("Evaluating model:")
+    print(223)
     get_loss_distribution(macro_predictor,
                           test_dataset,
                           device,
