@@ -42,9 +42,6 @@ class WinFeatureExtractor:
         for feature in self.features:
             if feature == 'time':
                 columns.append(x['time'].values / 60000)
-            # elif feature == 'fow':
-            #     for team in (1, 2):
-            #         columns.append(x[f't{team}_total_gold'].values / 1000)
             elif feature == 'gold':
                 for team in (1, 2):
                     columns.append(x[f't{team}_total_gold'].values / 1000)
@@ -72,6 +69,10 @@ class WinFeatureExtractor:
                 for team in (1, 2):
                     for role in CHAMPION_ROLES:
                         columns.append(x[f't{team}_{role}_respawn'].values)
+            elif feature == 'fow':
+                for role in CHAMPION_ROLES:
+                    for team in (1, 2):
+                        columns.append(x[f't{team}_{role}_fow'].values)
             elif feature == 'alive':
                 for team in (1, 2):
                     columns.append((x[[f't{team}_{role}_respawn' for role in CHAMPION_ROLES]].values == 0).sum(axis=1))

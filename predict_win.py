@@ -233,8 +233,8 @@ def main() -> None:
     data_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI'
     data_dragon_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI\\Game_data'
     #data_folder = sys.argv[1]
-    dataset_folder = 'data_fow'
-    output_folder = os.path.join('C:\\Users\\edems\\Documents\\Work\\fow_AI\\output', 'win_prediction')
+    dataset_folder = 'data_fow_v2'
+    output_folder = os.path.join('C:\\Users\\edems\\Documents\\Work\\fow_AI\\output', 'win_prediction_fov_v2')
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
@@ -250,23 +250,28 @@ def main() -> None:
 
     models = [{"name": "Baseline", "features": ['time', 'kills', 'turrets_total', 'monsters']},
               {"name": "Base", "features": ['kills', 'turrets_total', 'monsters']},
+              {"name": "Fog of war", "features": ['fow']},
               # Single additions
-              {"name": "Base - kills", "features": ['turrets_total', 'monsters']},
-              {"name": "Base - turrets total", "features": ['kills', 'monsters']},
-              {"name": "Base - monsters", "features": ['kills', 'turrets_total']},
-              {"name": "Base + gold", "features": ['kills', 'turrets_total', 'monsters', 'gold']},
-              {"name": "Base + level", "features": ['kills', 'turrets_total', 'monsters', 'level']},
-              {"name": "Base + level mean", "features": ['kills', 'turrets_total', 'monsters', 'level_mean']},
-              {"name": "Base + respawn", "features": ['kills', 'turrets_total', 'monsters', 'respawn']},
-              {"name": "Base + alive", "features": ['kills', 'turrets_total', 'monsters', 'alive']},
-              {"name": "Base + champions n-hot", "features": ['kills', 'turrets_total', 'monsters', 'champions_n_hot']},
-              {"name": "Base + champion clusters", "features": ['kills', 'turrets_total', 'monsters', 'champions_k_modes']},
-              {"name": "Base + epic buffs", "features": ['kills', 'turrets_total', 'monsters', 'epic_buffs']},
-              {"name": "Base + inhibitors per lane", "features": ['kills', 'turrets_total', 'monsters', 'inhibitors_per_lane']},
-              {"name": "Base + inhibitors total", "features": ['kills', 'turrets_total', 'monsters', 'inhibitors_total']},
-              {"name": "Base + inhibitors respawn", "features": ['kills', 'turrets_total', 'monsters', 'inhibitors_respawn']},
-              {"name": "Base + wards total", "features": ['kills', 'turrets_total', 'monsters', 'wards_total']},
-              {"name": "Base + wards per type", "features": ['kills', 'turrets_total', 'monsters', 'wards_per_type']},
+              {"name": "Base_fow", "features": ['kills','turrets_total', 'monsters','fow']},
+              {"name": "Base_fow -monsters", "features": ['kills','turrets_total','fow']},
+              {"name": "Base_fow - turrets total", "features": ['kills', 'monsters','fow']},
+              {"name": "Base_fow - kills", "features": ['kills', 'monsters','fow']},
+              {"name": "Base_fow - kills", "features": ['monsters','turrets_total', 'fow']},
+              {"name": "Base_fow + vision", "features": ['monsters','turrets_total', 'fow','wards_total']},
+              {"name": "Base_fow + inhibitors total", "features": ['kills', 'turrets_total', 'monsters', 'inhibitors_total','fow']},
+              {"name": "Base_fow + gold", "features": ['kills', 'turrets_total', 'monsters', 'gold','fow']},
+              {"name": "Base_fow + level", "features": ['kills', 'turrets_total', 'monsters', 'level','fow']},
+              {"name": "Base_fow + level mean", "features": ['kills', 'turrets_total', 'monsters', 'level_mean','fow']},
+              {"name": "Base_fow + respawn", "features": ['kills', 'turrets_total', 'monsters', 'respawn','fow']},
+              {"name": "Base_fow + alive", "features": ['kills', 'turrets_total', 'monsters', 'alive','fow']},
+              {"name": "Base_fow + champions n-hot", "features": ['kills', 'turrets_total', 'monsters', 'champions_n_hot','fow']},
+              {"name": "Base_fow + champion clusters", "features": ['kills', 'turrets_total', 'monsters', 'champions_k_modes']},
+              {"name": "Base_fow + epic buffs", "features": ['kills', 'turrets_total', 'monsters', 'epic_buffs','fow']},
+              {"name": "Base_fow + inhibitors per lane", "features": ['kills', 'turrets_total', 'monsters', 'inhibitors_per_lane','fow']},
+              {"name": "Base_fow + inhibitors total", "features": ['kills', 'turrets_total', 'monsters', 'inhibitors_total']},
+              {"name": "Base_fow + inhibitors respawn", "features": ['kills', 'turrets_total', 'monsters', 'inhibitors_respawn']},
+              {"name": "Base_fow + wards total", "features": ['kills', 'turrets_total', 'monsters', 'wards_total','fow']},
+              {"name": "Base_fow + wards per type", "features": ['kills', 'turrets_total', 'monsters', 'wards_per_type','fow']},
               # Modifications
               {"name": "Base - monsters + barons, dragons total", "features": ['kills', 'turrets_total', 'barons', 'dragons_total']},
               {"name": "Base - monsters + barons, dragons", "features": ['kills', 'turrets_total', 'barons', 'dragons']},

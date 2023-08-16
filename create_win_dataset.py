@@ -10,13 +10,14 @@ from lol_rules import CHAMPION_ROLES, WARD_TYPES, DRAGON_TYPES, LANES, TURRET_TY
 def main() -> None:
     data_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI\\Game_data'
     aggregated_folder = os.path.join(data_folder, 'aggregated_fow_data')
-    output_folder = 'data_fow'
+    output_folder = 'data_fow_v2'
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
     # Features per team
     team_features = ['total_gold', 'champion_kills', 'deaths'] + \
                     [f'{role}_level' for role in CHAMPION_ROLES] + \
+                    [f'{role}_fow' for role in CHAMPION_ROLES] + \
                     [f'{role}_respawn' for role in CHAMPION_ROLES] + \
                     [f'{role}_champion' for role in CHAMPION_ROLES] + \
                     [f'{type}_dragon_killed' for type in DRAGON_TYPES] + ['baron_kills'] +\
@@ -51,12 +52,16 @@ def main() -> None:
                 current_team_features[team][team_features.index('dragon_buff_remaining')] = \
                     timestep_state['team_buffs'][team][format['state']['team_buffs'].index('dragon_remaining')]
                 for role in CHAMPION_ROLES:
-                    current_team_features[team][team_features.index(f'{role}_level')] =\
-                        timestep_state['champion_state'][champion_roles[team + 1][role]][format['state']['champion_state'].index('level')]
-                    current_team_features[team][team_features.index(f'{role}_respawn')] =\
-                        timestep_state['champion_state'][champion_roles[team + 1][role]][format['state']['champion_state'].index('respawnTimer')]
-                    current_team_features[team][team_features.index(f'{role}_champion')] =\
-                        champions[champion_roles[team + 1][role]]
+                    current_team_features[team][team_features.index(f'{role}_level')] = timestep_state['champion_state'][champion_roles[team + 1][role]][format['state']['champion_state'].index('level')]
+                    fow_index = format['state']['champion_state'].index('fog_of_war')
+                    try: 
+                        current_team_features[team][team_features.index(f'{role}_fow')] = timestep_state['champion_state'][champion_roles[team + 1][role]][format['state']['champion_state'].index('fog_of_war')]
+                    except IndexError as e:
+                        fow_index = fow_index -1
+                        current_team_features[team][team_features.index(f'{role}_fow')] = False
+                    
+                    current_team_features[team][team_features.index(f'{role}_respawn')] = timestep_state['champion_state'][champion_roles[team + 1][role]][format['state']['champion_state'].index('respawnTimer')]
+                    current_team_features[team][team_features.index(f'{role}_champion')] =champions[champion_roles[team + 1][role]]
                 for ward_type in WARD_TYPES:
                     current_team_features[team][team_features.index(f'{ward_type}_wards')] =\
                         sum(len([w for w in timestep_state[f'{ward_type}_wards'][i] if w[0] != 0 or w[0] != 0])

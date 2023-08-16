@@ -260,8 +260,8 @@ def main() -> None:
     #data_folder = sys.argv[1]
     
     data_folder = 'C:\\Users\\edems\\Documents\\Work\\fow_AI\\Game_Data'
-    aggregated_folder = os.path.join(data_folder, 'aggregated_fow_data')
-    output_folder = os.path.join(data_folder, 'macro_fow')
+    aggregated_folder = os.path.join(data_folder, 'aggregated_10000')
+    output_folder = os.path.join(data_folder, 'macro_muller')
 
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)

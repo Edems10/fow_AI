@@ -80,7 +80,7 @@ def main() -> None:
     else:
         raise ValueError("Vigilant Wardstone item id not found!")
 
-    output_folder = os.path.join(data_folder, 'aggregated')
+    output_folder = os.path.join(data_folder, 'aggregated_1000')
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 

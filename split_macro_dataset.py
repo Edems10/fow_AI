@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 def main() -> None:
     data_folder = os.path.join(os.path.dirname(__file__),'Game_data')
-    output_folder = os.path.join(os.path.dirname(__file__),'Game_data', 'macro_prediction_split_fow')
+    output_folder = os.path.join(os.path.dirname(__file__),'Game_data', 'macro_prediction_split_muller')
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
     dataset_folder = os.path.join(data_folder, 'macro_fow')

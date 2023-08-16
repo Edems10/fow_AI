@@ -505,20 +505,22 @@ def visualize_predictions(model: torch.nn.Module,
 
 
 def get_filenames(dataset_folder: str, dataset_name: str) -> List[str]:
-    with open(os.path.join(os.path.dirname(__file__), 'Game_data\\macro_prediction_split_fow', f'{dataset_name}.txt'), 'r') as f:
+    with open(os.path.join(os.path.dirname(__file__), 'Game_data\\macro_prediction_split_muller', f'{dataset_name}.txt'), 'r') as f:
         return [os.path.join(dataset_folder, filename.strip()) for filename in f]
 
+import time
 
 def main() -> None:
+    start_time = time.time()
     #data_folder = sys.argv[1]
     data_folder = os.path.join(os.path.dirname(__file__),'Game_data')
     POSITON_PREDICTION_SPLIT_N = 12
     history_size = 1
-    dataset_folder = os.path.join(data_folder, f'macro_fow')
-    models_folder = 'models'
+    dataset_folder = os.path.join(data_folder, f'macro_muller')
+    models_folder = 'models_muller'
     if not os.path.exists(models_folder):
         os.mkdir(models_folder)
-    output_folder = os.path.join(os.path.dirname(__file__),'output', 'macro_prediction')
+    output_folder = os.path.join(os.path.dirname(__file__),'output', 'macro_prediction_muller')
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
@@ -701,7 +703,19 @@ def main() -> None:
                    hidden_sizes,
                    history_size,
                    output_folder)
+    end_time = time.time()
+    total_time = end_time - start_time
 
+    # Convert to hours, minutes, seconds, and milliseconds
+    hours = total_time // 3600
+    total_time %= 3600
+    minutes = total_time // 60
+    total_time %= 60
+    seconds = total_time // 1
+    total_time %= 1
+    milliseconds = total_time * 1000
+
+    print(f"Total execution time: {int(hours)} hours, {int(minutes)} minutes, {int(seconds)} seconds, and {int(milliseconds)} milliseconds.")
 
 if __name__ == '__main__':
     main()
